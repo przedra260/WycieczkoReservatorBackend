@@ -1,4 +1,4 @@
-package com.example.WycieczkoReservator;
+package pl.us.tripsbooking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
