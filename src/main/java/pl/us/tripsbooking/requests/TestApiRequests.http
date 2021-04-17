@@ -1,0 +1,4 @@
+### Test api
+GET http://localhost:2507/test/generate-password?password=silnehaslo123
+Accept: application/json
+
