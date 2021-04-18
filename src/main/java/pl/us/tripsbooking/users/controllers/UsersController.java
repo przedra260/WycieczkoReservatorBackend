@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.us.tripsbooking.users.entities.Users;
+import pl.us.tripsbooking.users.entities.User;
 import pl.us.tripsbooking.users.services.UsersService;
 
 @RestController
@@ -17,8 +17,8 @@ public class UsersController {
     private UsersService usersService;
 
     @GetMapping("/getUserInfo")
-    public ResponseEntity<Users> getUserInfo(@RequestParam String username) {
-        Users user = usersService.getUserInfo(username);
+    public ResponseEntity<User> getUserInfo(@RequestParam String username) {
+        User user = usersService.getUserInfo(username);
         return ResponseEntity.ok(user);
     }
 }
