@@ -2,3 +2,8 @@
 GET http://localhost:2507/test/generate-password?password=silnehaslo123
 Accept: application/json
 
+### Get user info
+GET http://localhost:2507/users/getUserInfo?username=Sarchael
+Accept: application/json
+
+

@@ -8,8 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.us.tripsbooking.security.model.UserInfo;
-import pl.us.tripsbooking.security.repositories.LoginRepository;
+import org.springframework.transaction.annotation.Transactional;
+import pl.us.tripsbooking.users.entities.Users;
+import pl.us.tripsbooking.users.repositories.UsersRepository;
 
 import java.util.Arrays;
 
@@ -18,15 +19,16 @@ import java.util.Arrays;
 public class TripsBookingUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private LoginRepository loginRepository;
+    private UsersRepository usersRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserInfo userInfo = loginRepository.findUserLoginInfoByUsername(s);
+        Users userInfo = usersRepository.getUserInfo(s);
 
         if(userInfo == null)
             throw new UsernameNotFoundException("User not found");
 
-        return new User(userInfo.getLogin(), userInfo.getPassword(), Arrays.asList(new SimpleGrantedAuthority(userInfo.getRole())));
+        return new User(userInfo.getLogin(), userInfo.getPassword(), Arrays.asList(new SimpleGrantedAuthority(userInfo.getRole().getName())));
     }
 }
