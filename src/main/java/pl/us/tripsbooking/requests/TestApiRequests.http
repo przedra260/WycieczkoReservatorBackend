@@ -1,9 +1,10 @@
 ### Test api
-GET http://localhost:2507/test/generate-password?password=silnehaslo123
+GET http://localhost:2507/test/generate-password?password=krzaki
 Accept: application/json
 
 ### Get user info
-GET http://localhost:2507/users/getUserInfo?username=Sarchael
-Accept: application/json
+GET http://localhost:2507/users/getUserInfo
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODg3ODA3NH0.ShLnFVadhXKbcFf9zncR-qxB3EmS-Suw-XIRiqiEBrE
+Content-Type: application/json
 
 

@@ -6,10 +6,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
 @Setter
 @Getter
-public class Roles {
+@Entity(name = "roles")
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,12 +19,12 @@ public class Roles {
 
     private String description;
 
-    public Roles() {
+    public Role() {
     }
 
     @Override
     public String toString() {
-        return "Roles{" +
+        return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

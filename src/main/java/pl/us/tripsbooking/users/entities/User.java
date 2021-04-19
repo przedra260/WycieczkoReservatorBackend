@@ -6,9 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
 @Setter
 @Getter
+@Entity(name = "users")
 public class User {
 
     @Id
@@ -32,7 +32,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
-    private Roles role;
+    private Role role;
 
     public User() {
     }
