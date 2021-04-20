@@ -1,3 +1,4 @@
+###
 ### Test api
 GET http://localhost:2507/test/generate-password?password=krzaki
 Accept: application/json
@@ -7,4 +8,7 @@ GET http://localhost:2507/users/getUserInfo
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODg3ODA3NH0.ShLnFVadhXKbcFf9zncR-qxB3EmS-Suw-XIRiqiEBrE
 Content-Type: application/json
 
-
+### Get all trips
+GET http://localhost:2507/trips/getAllTrips
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk1Mjc2OH0.20Q3aDKCmPAIlFingyOk08Wge1pR-HpBkjGwZ2pY0-w
+Accept: application/json

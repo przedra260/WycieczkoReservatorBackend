@@ -4,6 +4,7 @@ package pl.us.tripsbooking.users.entities;
 import lombok.Getter;
 import lombok.Setter;
 import pl.us.tripsbooking.trips.entities.Trip;
+import pl.us.tripsbooking.trips.entities.TripUser;
 
 import javax.persistence.*;
 import java.util.List;
@@ -38,6 +39,9 @@ public class User {
 
     @OneToMany(mappedBy = "guideId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Trip> guideTripsList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TripUser> tripUserList;
 
     public User() {
     }

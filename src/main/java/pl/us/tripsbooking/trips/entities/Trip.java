@@ -8,6 +8,7 @@ import pl.us.tripsbooking.users.entities.User;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -56,13 +57,16 @@ public class Trip {
 
     private String participants;
 
-    @Column(name = "transport_form")
-    @Enumerated(EnumType.ORDINAL)
-    private TransportForm transportForm;
+//    @Column(name = "transport_form")
+//    @Enumerated(EnumType.ORDINAL)
+//    private TransportForm transportForm;
 
     @ManyToOne
     @JoinColumn(name = "guide_id", nullable = false)
     private User guideId;
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TripUser> tripUserList;
 
     public Trip() {
     }
@@ -85,7 +89,7 @@ public class Trip {
                 ", endDate=" + endDate +
                 ", roomSizes='" + roomSizes + '\'' +
                 ", participants='" + participants + '\'' +
-                ", transportForm=" + transportForm +
+//                ", transportForm=" + transportForm +
                 ", guideId=" + guideId +
                 '}';
     }
