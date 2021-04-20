@@ -3,8 +3,10 @@ package pl.us.tripsbooking.users.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.us.tripsbooking.trips.entities.Trip;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter
@@ -33,6 +35,9 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "guideId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trip> guideTripsList;
 
     public User() {
     }
