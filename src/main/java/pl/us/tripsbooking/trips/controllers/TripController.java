@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.services.TripService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,4 +22,15 @@ public class TripController {
     public ResponseEntity<List<TripListModel>> getAllTrips() {
         return ResponseEntity.ok(tripService.getAllTrips());
     }
+
+    @GetMapping("/getUserTrips")
+    public ResponseEntity<List<TripListModel>> getUserTrips(Principal principal) {
+        return ResponseEntity.ok(tripService.getUserTrips(principal.getName()));
+    }
+
+    @GetMapping("/getGuideTrips")
+    public ResponseEntity<List<TripListModel>> getGuideTrips(Principal principal) {
+        return ResponseEntity.ok(tripService.getGuideTrips(principal.getName()));
+    }
+
 }

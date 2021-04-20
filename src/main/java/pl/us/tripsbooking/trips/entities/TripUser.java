@@ -26,4 +26,12 @@ public class TripUser {
     public TripUser() {
     }
 
+    @Override
+    public String toString() {
+        return "TripUser{" +
+                "id=" + id +
+                ", trip=" + trip +
+                ", user=" + user +
+                '}';
+    }
 }

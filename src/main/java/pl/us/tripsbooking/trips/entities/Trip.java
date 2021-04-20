@@ -90,7 +90,6 @@ public class Trip {
                 ", roomSizes='" + roomSizes + '\'' +
                 ", participants='" + participants + '\'' +
 //                ", transportForm=" + transportForm +
-                ", guideId=" + guideId +
                 '}';
     }
 }

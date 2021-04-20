@@ -5,10 +5,20 @@ Accept: application/json
 
 ### Get user info
 GET http://localhost:2507/users/getUserInfo
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODg3ODA3NH0.ShLnFVadhXKbcFf9zncR-qxB3EmS-Suw-XIRiqiEBrE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk2MTM1MH0.pgWc6KDu7CxWayeAHk2Qdj3f5_WqpS1bU6he-EboJ9Y
 Content-Type: application/json
 
 ### Get all trips
 GET http://localhost:2507/trips/getAllTrips
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk1Mjc2OH0.20Q3aDKCmPAIlFingyOk08Wge1pR-HpBkjGwZ2pY0-w
+Accept: application/json
+
+### Get user trips
+GET http://localhost:2507/trips/getUserTrips
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk2MTgwOX0.mAjob-aKgYt4mVtWfCXgtoB9GJwZ-mxybOq-1iow1_w
+Accept: application/json
+
+### Get guide trips
+GET http://localhost:2507/trips/getGuideTrips
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk2MjE0NX0.RH8xVfL1iJGvnRWLFdoCGxyJRezMhdMh3rx7YJBbPew
 Accept: application/json
