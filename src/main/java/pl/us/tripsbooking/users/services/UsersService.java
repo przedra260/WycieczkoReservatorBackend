@@ -14,6 +14,6 @@ public class UsersService {
     private UsersRepository usersRepository;
 
     public User getUserInfo(String s){
-        return usersRepository.getUserInfo(s);
+        return usersRepository.findByEmail(s);
     }
 }
