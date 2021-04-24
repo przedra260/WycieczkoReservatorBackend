@@ -1,16 +1,15 @@
 package pl.us.tripsbooking.trips.enums;
 
 public enum TransportForm {
-    BUS(1),
-    PLANE(2);
+    BUS(1), PLANE(2);
 
-    private final int transportId;
+    private int code;
 
-    TransportForm(int transportId) {
-        this.transportId = transportId;
+    TransportForm(int code) {
+        this.code = code;
     }
 
-    public int getTransportId() {
-        return transportId;
+    public int getCode() {
+        return code;
     }
 }

@@ -22,3 +22,7 @@ Accept: application/json
 GET http://localhost:2507/trips/getGuideTrips
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk2MjE0NX0.RH8xVfL1iJGvnRWLFdoCGxyJRezMhdMh3rx7YJBbPew
 Accept: application/json
+
+### Get trip details
+GET http://localhost:2507/trips/getTripDetails?tripId=1
+Accept: application/json

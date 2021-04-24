@@ -41,4 +41,8 @@ public class TripService {
         tripRepository.findAll().forEach(tripList::add);
         return tripMapper.mapToTripListModel(tripList);
     }
+
+    public Trip getTripDetails(Integer tripId) {
+        return tripRepository.findById(tripId).orElseThrow();
+    }
 }

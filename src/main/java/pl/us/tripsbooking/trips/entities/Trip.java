@@ -57,9 +57,7 @@ public class Trip {
 
     private String participants;
 
-//    @Column(name = "transport_form")
-//    @Enumerated(EnumType.ORDINAL)
-//    private TransportForm transportForm;
+    private Integer transport;
 
     @ManyToOne
     @JoinColumn(name = "guide_id", nullable = false)
@@ -89,7 +87,9 @@ public class Trip {
                 ", endDate=" + endDate +
                 ", roomSizes='" + roomSizes + '\'' +
                 ", participants='" + participants + '\'' +
-//                ", transportForm=" + transportForm +
+                ", transport=" + transport +
+                ", guideId=" + guideId +
+                ", tripUserList=" + tripUserList +
                 '}';
     }
 }
