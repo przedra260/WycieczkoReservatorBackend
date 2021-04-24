@@ -18,8 +18,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String login;
-
     private String email;
 
     private String password;
@@ -32,6 +30,8 @@ public class User {
 
     @Column(name = "is_blocked")
     private boolean isBlocked;
+
+    private boolean credentialsExpired;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
@@ -50,12 +50,12 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", isBlocked=" + isBlocked +
+                ", credentialsExpired=" + credentialsExpired +
                 ", role=" + role +
                 '}';
     }

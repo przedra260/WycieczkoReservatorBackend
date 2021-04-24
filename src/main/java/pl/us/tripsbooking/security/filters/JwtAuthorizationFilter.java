@@ -54,14 +54,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         if (token != null && token.startsWith(TOKEN_PREFIX)) {
             try {
-                String userName = JWT.require(Algorithm.HMAC256(secret))
-                        .build()
-                        .verify(token.replace(TOKEN_PREFIX, ""))
-                        .getSubject();
+                String email = JWT.require(Algorithm.HMAC256(secret))
+                                  .build()
+                                  .verify(token.replace(TOKEN_PREFIX, ""))
+                                  .getSubject();
 
-                if (userName != null) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-                    return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                if (email != null) {
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                    return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 }
             } catch (Exception exc){
                 throw new BadTokenException("Invalid token");

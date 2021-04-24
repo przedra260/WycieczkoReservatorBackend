@@ -26,7 +26,7 @@ public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticati
             }
             LoginForm authRequest = objectMapper.readValue(sb.toString(), LoginForm.class);
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    authRequest.getUsername(), authRequest.getPassword()
+                    authRequest.getEmail(), authRequest.getPassword()
             );
             setDetails(request, token);
             response.setContentType("application/json");

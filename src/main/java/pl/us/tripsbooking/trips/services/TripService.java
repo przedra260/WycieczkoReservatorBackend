@@ -25,13 +25,13 @@ public class TripService {
     @Autowired
     private TripMapper tripMapper;
 
-    public List<TripListModel> getGuideTrips(String username) {
-        List<Trip> tripList = usersRepository.getUserInfo(username).getGuideTripsList();
+    public List<TripListModel> getGuideTrips(String email) {
+        List<Trip> tripList = usersRepository.findByEmail(email).getGuideTripsList();
         return tripMapper.mapToTripListModel(tripList);
     }
 
-    public List<TripListModel> getUserTrips(String username) {
-        List<TripUser> tripUserList = usersRepository.getUserInfo(username).getTripUserList();
+    public List<TripListModel> getUserTrips(String email) {
+        List<TripUser> tripUserList = usersRepository.findByEmail(email).getTripUserList();
         List<Trip> tripList = tripUserList.stream().map(TripUser::getTrip).collect(Collectors.toList());
         return tripMapper.mapToTripListModel(tripList);
     }
