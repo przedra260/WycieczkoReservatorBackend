@@ -1,7 +1,12 @@
 package pl.us.tripsbooking.trips.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 
+@Getter
+@Setter
 public class TripListModel {
 
     private Integer number;
@@ -13,38 +18,6 @@ public class TripListModel {
         this.number = number;
         this.title = title;
         this.mainImageUrl = mainImageUrl;
-        this.minPrice = minPrice;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getMainImageUrl() {
-        return mainImageUrl;
-    }
-
-    public void setMainImageUrl(String mainImageUrl) {
-        this.mainImageUrl = mainImageUrl;
-    }
-
-    public BigDecimal getMinPrice() {
-        return minPrice;
-    }
-
-    public void setMinPrice(BigDecimal minPrice) {
         this.minPrice = minPrice;
     }
 }

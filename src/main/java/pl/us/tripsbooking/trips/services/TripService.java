@@ -2,6 +2,7 @@ package pl.us.tripsbooking.trips.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.us.tripsbooking.trips.dto.TripApiModel;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.entities.Trip;
 import pl.us.tripsbooking.trips.entities.TripUser;
@@ -42,7 +43,12 @@ public class TripService {
         return tripMapper.mapToTripListModel(tripList);
     }
 
-    public Trip getTripDetails(Integer tripId) {
-        return tripRepository.findById(tripId).orElseThrow();
+    public TripApiModel getTripDetails(Integer tripId) {
+        return tripMapper.mapToTripApiModel(tripRepository.findById(tripId).orElseThrow());
+    }
+
+    public void saveTrip(TripApiModel tripApiModel) {
+        Trip trip = tripMapper.mapToTrip(tripApiModel);
+        tripRepository.save(trip);
     }
 }

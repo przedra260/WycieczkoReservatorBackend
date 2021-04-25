@@ -57,7 +57,8 @@ public class Trip {
 
     private String participants;
 
-    private Integer transport;
+    @Enumerated(EnumType.STRING)
+    private TransportForm transport;
 
     @ManyToOne
     @JoinColumn(name = "guide_id", nullable = false)
@@ -65,6 +66,9 @@ public class Trip {
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TripUser> tripUserList;
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TripImages> tripImagesList;
 
     public Trip() {
     }
@@ -74,7 +78,6 @@ public class Trip {
         return "Trip{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", mainImgUrl='" + mainImgUrl + '\'' +
                 ", minPrice=" + minPrice +
                 ", description='" + description + '\'' +
                 ", pricePerPerson=" + pricePerPerson +
@@ -89,7 +92,6 @@ public class Trip {
                 ", participants='" + participants + '\'' +
                 ", transport=" + transport +
                 ", guideId=" + guideId +
-                ", tripUserList=" + tripUserList +
                 '}';
     }
 }
