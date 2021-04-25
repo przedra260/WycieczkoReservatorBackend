@@ -28,10 +28,11 @@ public class TripApiModel {
     private TransportForm formOfTransport;
     private String mainImageUrl;
     private List<String> otherImagesUrl;
+    private Integer guideId;
 
     public TripApiModel(Integer id, String title, String description, List<Integer> participants, BigDecimal pricePerSingleParticipant,
                         List<Integer> roomSizes, BigDecimal pricePerSingleRoom, boolean meal, BigDecimal pricePerSingleDayOfMeals, String departureLocation,
-                        String tripLocation, Date startDate, Date endDate, TransportForm formOfTransport, String mainImageUrl, List<String> otherImagesUrl) {
+                        String tripLocation, Date startDate, Date endDate, TransportForm formOfTransport, String mainImageUrl, List<String> otherImagesUrl, Integer guideId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -48,5 +49,6 @@ public class TripApiModel {
         this.formOfTransport = formOfTransport;
         this.mainImageUrl = mainImageUrl;
         this.otherImagesUrl = otherImagesUrl;
+        this.guideId = guideId;
     }
 }

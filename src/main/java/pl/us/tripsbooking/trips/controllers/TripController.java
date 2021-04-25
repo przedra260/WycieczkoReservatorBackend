@@ -37,7 +37,7 @@ public class TripController {
         return ResponseEntity.ok(tripService.getTripDetails(tripId));
     }
 
-    @GetMapping("/saveTrip")
+    @PostMapping("/saveTrip")
     public ResponseEntity<String> saveTrip(@RequestBody TripApiModel tripApiModel) {
         tripService.saveTrip(tripApiModel);
         return ResponseEntity.ok().build();

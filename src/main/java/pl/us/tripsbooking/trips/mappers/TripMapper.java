@@ -38,7 +38,8 @@ public class TripMapper {
                 trip.getEndDate(),
                 trip.getTransport(),
                 trip.getMainImgUrl(),
-                urls
+                urls,
+                trip.getGuideId() != null ? trip.getGuideId().getId() : null
         );
     }
 
