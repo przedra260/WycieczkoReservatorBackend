@@ -60,8 +60,8 @@ public class Trip {
     @Enumerated(EnumType.STRING)
     private TransportForm transport;
 
-    @ManyToOne
-    @JoinColumn(name = "guide_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "guide_id")
     private User guideId;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
