@@ -31,6 +31,7 @@ public class User {
     @Column(name = "is_blocked")
     private boolean isBlocked;
 
+    @Column(name = "credentials_expired")
     private boolean credentialsExpired;
 
     @ManyToOne
