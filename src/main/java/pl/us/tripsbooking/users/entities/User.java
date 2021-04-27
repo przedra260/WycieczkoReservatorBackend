@@ -38,10 +38,10 @@ public class User {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "guideId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "guideId", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Trip> guideTripsList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TripUser> tripUserList;
 
     public User() {

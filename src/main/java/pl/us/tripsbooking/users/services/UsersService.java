@@ -32,8 +32,7 @@ public class UsersService {
     }
 
     public List<UserListModel> getAllGuides() {
-        List<User> guidesList = new ArrayList<>();
-        usersRepository.getAllGuides().forEach(guidesList::add);
+        List<User> guidesList = new ArrayList<>(usersRepository.getAllGuides());
         return userMapper.mapToUserListModel(guidesList);
     }
 }

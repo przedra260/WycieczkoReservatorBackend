@@ -60,11 +60,11 @@ public class Trip {
     @Enumerated(EnumType.STRING)
     private TransportForm transport;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "guide_id")
     private User guideId;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "trip", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<TripUser> tripUserList;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)

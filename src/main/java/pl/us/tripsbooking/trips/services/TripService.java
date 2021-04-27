@@ -51,4 +51,8 @@ public class TripService {
         Trip trip = tripMapper.mapToTrip(tripApiModel);
         tripRepository.save(trip);
     }
+
+    public void deleteTrip(Integer tripId) {
+        tripRepository.deleteById(tripId);
+    }
 }

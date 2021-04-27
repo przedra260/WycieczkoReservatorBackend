@@ -43,4 +43,10 @@ public class TripController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/deleteTrip")
+    public ResponseEntity<String> deleteTrip(@RequestParam Integer tripId) {
+        tripService.deleteTrip(tripId);
+        return ResponseEntity.ok().build();
+    }
+
 }
