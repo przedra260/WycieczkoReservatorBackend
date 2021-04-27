@@ -6,6 +6,7 @@ import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.entities.Trip;
 import pl.us.tripsbooking.trips.entities.TripImages;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,11 +62,18 @@ public class TripMapper {
         trip.setStartDate(tripApiModel.getStartDate());
         trip.setEndDate(tripApiModel.getEndDate());
         trip.setTransport(tripApiModel.getFormOfTransport());
+        trip.setMainImgUrl(tripApiModel.getMainImageUrl());
+        trip.setMinPrice(calculateMinPrice(tripApiModel));
 
         List<TripImages> tripImages = tripApiModel.getOtherImagesUrl().stream().map(url -> new TripImages(url, trip)).collect(Collectors.toList());
-
         trip.setTripImagesList(tripImages);
 
         return trip;
+    }
+
+    private BigDecimal calculateMinPrice(TripApiModel tripApiModel) {
+        BigDecimal minRoomSize = new BigDecimal(tripApiModel.getRoomSizes().stream().mapToInt(v -> v).min().orElseThrow());
+        BigDecimal minParticipants = new BigDecimal(tripApiModel.getParticipants().stream().mapToInt(v -> v).min().orElseThrow());
+        return tripApiModel.getPricePerSingleRoom().multiply(minRoomSize).add(tripApiModel.getPricePerSingleParticipant().multiply(minParticipants));
     }
 }
