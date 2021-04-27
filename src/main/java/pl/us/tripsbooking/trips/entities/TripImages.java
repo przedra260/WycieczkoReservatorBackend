@@ -17,8 +17,8 @@ public class TripImages {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "trip_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "trip_id")
     private Trip trip;
 
     public TripImages() {
