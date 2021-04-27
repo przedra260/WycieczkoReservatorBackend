@@ -30,4 +30,10 @@ public class UsersService {
         usersRepository.findAll().forEach(userList::add);
         return userMapper.mapToUserListModel(userList);
     }
+
+    public List<UserListModel> getAllGuides() {
+        List<User> guidesList = new ArrayList<>();
+        usersRepository.getAllGuides().forEach(guidesList::add);
+        return userMapper.mapToUserListModel(guidesList);
+    }
 }
