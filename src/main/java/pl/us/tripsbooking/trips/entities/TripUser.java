@@ -26,6 +26,11 @@ public class TripUser {
     public TripUser() {
     }
 
+    public TripUser(User user, Trip trip) {
+        this.user = user;
+        this.trip = trip;
+    }
+
     @Override
     public String toString() {
         return "TripUser{" +
