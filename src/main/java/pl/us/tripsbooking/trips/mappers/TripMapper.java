@@ -54,8 +54,8 @@ public class TripMapper {
     }
 
     public Trip mapToTrip(TripApiModel tripApiModel) {
-        String participants = tripApiModel.getParticipants().stream().map(Object::toString).collect(Collectors.joining(", "));
-        String rooms = tripApiModel.getRoomSizes().stream().map(Object::toString).collect(Collectors.joining(", "));
+        String participants = tripApiModel.getParticipants().stream().map(Object::toString).collect(Collectors.joining(","));
+        String rooms = tripApiModel.getRoomSizes().stream().map(Object::toString).collect(Collectors.joining(","));
 
         Trip trip;
         if (tripApiModel.getId() != null) {
