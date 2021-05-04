@@ -17,10 +17,8 @@ public class TripApiModel {
     private String description;
     private List<Integer> participants;
     private BigDecimal pricePerSingleParticipant;
-    private List<Integer> roomSizes;
-    private BigDecimal pricePerSingleRoom;
     private boolean meal;
-    private BigDecimal pricePerSingleDayOfMeals;
+    private BigDecimal mealPricePerPerson;
     private String departureLocation;
     private String tripLocation;
     private Date startDate;
@@ -31,17 +29,15 @@ public class TripApiModel {
     private Integer guideId;
 
     public TripApiModel(Integer id, String title, String description, List<Integer> participants, BigDecimal pricePerSingleParticipant,
-                        List<Integer> roomSizes, BigDecimal pricePerSingleRoom, boolean meal, BigDecimal pricePerSingleDayOfMeals, String departureLocation,
-                        String tripLocation, Date startDate, Date endDate, TransportForm formOfTransport, String mainImageUrl, List<String> otherImagesUrl, Integer guideId) {
+                        boolean meal, BigDecimal mealPricePerPerson, String departureLocation, String tripLocation, Date startDate, Date endDate,
+                        TransportForm formOfTransport, String mainImageUrl, List<String> otherImagesUrl, Integer guideId) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.participants = participants;
         this.pricePerSingleParticipant = pricePerSingleParticipant;
-        this.roomSizes = roomSizes;
-        this.pricePerSingleRoom = pricePerSingleRoom;
         this.meal = meal;
-        this.pricePerSingleDayOfMeals = pricePerSingleDayOfMeals;
+        this.mealPricePerPerson = mealPricePerPerson;
         this.departureLocation = departureLocation;
         this.tripLocation = tripLocation;
         this.startDate = startDate;

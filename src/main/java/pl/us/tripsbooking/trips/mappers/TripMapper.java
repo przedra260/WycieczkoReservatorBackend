@@ -29,7 +29,6 @@ public class TripMapper {
 
     public TripApiModel mapToTripApiModel(Trip trip) {
         List<Integer> participants = Arrays.stream(trip.getParticipants().split(",")).map(Integer::valueOf).collect(Collectors.toList());
-        List<Integer> rooms = Arrays.stream(trip.getRoomSizes().split(",")).map(Integer::valueOf).collect(Collectors.toList());
         List<String> urls = trip.getTripImagesList().stream().map(TripImages::getImgUrl).collect(Collectors.toList());
 
         return new TripApiModel(
@@ -38,10 +37,8 @@ public class TripMapper {
                 trip.getDescription(),
                 participants,
                 trip.getPricePerPerson(),
-                rooms,
-                trip.getPricePerRoom(),
                 trip.isMeal(),
-                trip.getPricePerDailyMeal(),
+                trip.getMealPricePerPerson(),
                 trip.getDepartureLocation(),
                 trip.getTripLocation(),
                 trip.getStartDate(),
@@ -55,7 +52,6 @@ public class TripMapper {
 
     public Trip mapToTrip(TripApiModel tripApiModel) {
         String participants = tripApiModel.getParticipants().stream().map(Object::toString).collect(Collectors.joining(","));
-        String rooms = tripApiModel.getRoomSizes().stream().map(Object::toString).collect(Collectors.joining(","));
 
         Trip trip;
         if (tripApiModel.getId() != null) {
@@ -67,10 +63,8 @@ public class TripMapper {
         trip.setDescription(tripApiModel.getDescription());
         trip.setParticipants(participants);
         trip.setPricePerPerson(tripApiModel.getPricePerSingleParticipant());
-        trip.setRoomSizes(rooms);
-        trip.setPricePerRoom(tripApiModel.getPricePerSingleRoom());
         trip.setMeal(tripApiModel.isMeal());
-        trip.setPricePerDailyMeal(tripApiModel.getPricePerSingleDayOfMeals());
+        trip.setMealPricePerPerson(tripApiModel.getMealPricePerPerson());
         trip.setDepartureLocation(tripApiModel.getDepartureLocation());
         trip.setTripLocation(tripApiModel.getTripLocation());
         trip.setStartDate(tripApiModel.getStartDate());
@@ -89,8 +83,7 @@ public class TripMapper {
     }
 
     private BigDecimal calculateMinPrice(TripApiModel tripApiModel) {
-        BigDecimal minRoomSize = new BigDecimal(tripApiModel.getRoomSizes().stream().mapToInt(v -> v).min().orElseThrow());
         BigDecimal minParticipants = new BigDecimal(tripApiModel.getParticipants().stream().mapToInt(v -> v).min().orElseThrow());
-        return tripApiModel.getPricePerSingleRoom().multiply(minRoomSize).add(tripApiModel.getPricePerSingleParticipant().multiply(minParticipants));
+        return tripApiModel.getPricePerSingleParticipant().multiply(minParticipants);
     }
 }

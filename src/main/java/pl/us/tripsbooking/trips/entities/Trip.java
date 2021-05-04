@@ -7,6 +7,7 @@ import pl.us.tripsbooking.users.entities.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,13 +33,10 @@ public class Trip {
     @Column(name = "price_per_person")
     private BigDecimal pricePerPerson;
 
-    @Column(name = "price_per_room")
-    private BigDecimal pricePerRoom;
-
     private boolean meal;
 
-    @Column(name = "price_per_daily_meal")
-    private BigDecimal pricePerDailyMeal;
+    @Column(name = "meal_price_per_person")
+    private BigDecimal mealPricePerPerson;
 
     @Column(name = "departure_location")
     private String departureLocation;
@@ -52,9 +50,6 @@ public class Trip {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "room_sizes")
-    private String roomSizes;
-
     private String participants;
 
     @Enumerated(EnumType.STRING)
@@ -65,10 +60,10 @@ public class Trip {
     private User guideId;
 
     @OneToMany(mappedBy = "trip", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    private List<TripUser> tripUserList;
+    private List<TripUser> tripUserList = new ArrayList<>();
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TripImages> tripImagesList;
+    private List<TripImages> tripImagesList = new ArrayList<>();
 
     public Trip() {
     }
@@ -78,17 +73,16 @@ public class Trip {
         return "Trip{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", mainImgUrl='" + mainImgUrl + '\'' +
                 ", minPrice=" + minPrice +
                 ", description='" + description + '\'' +
                 ", pricePerPerson=" + pricePerPerson +
-                ", pricePerRoom=" + pricePerRoom +
                 ", meal=" + meal +
-                ", pricePerDailyMeal=" + pricePerDailyMeal +
+                ", mealPricePerPerson=" + mealPricePerPerson +
                 ", departureLocation='" + departureLocation + '\'' +
                 ", tripLocation='" + tripLocation + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", roomSizes='" + roomSizes + '\'' +
                 ", participants='" + participants + '\'' +
                 ", transport=" + transport +
                 ", guideId=" + guideId +
