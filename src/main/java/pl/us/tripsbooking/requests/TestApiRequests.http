@@ -5,24 +5,62 @@ Accept: application/json
 
 ### Get user info
 GET http://localhost:2507/users/getUserInfo
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk2MTM1MH0.pgWc6KDu7CxWayeAHk2Qdj3f5_WqpS1bU6he-EboJ9Y
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXJjaGFlbEBnbWFpbC5jb20iLCJleHAiOjE2MTk0Nzc5OTV9.00w-BBu3V11rc9UzND2Izjg052xtBg2zRd6LnxlTxUU
 Content-Type: application/json
 
 ### Get all trips
 GET http://localhost:2507/trips/getAllTrips
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk1Mjc2OH0.20Q3aDKCmPAIlFingyOk08Wge1pR-HpBkjGwZ2pY0-w
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXJjaGFlbEBnbWFpbC5jb20iLCJleHAiOjE2MTk0Nzc5OTV9.00w-BBu3V11rc9UzND2Izjg052xtBg2zRd6LnxlTxUU
 Accept: application/json
 
 ### Get user trips
 GET http://localhost:2507/trips/getUserTrips
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk2MTgwOX0.mAjob-aKgYt4mVtWfCXgtoB9GJwZ-mxybOq-1iow1_w
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXJjaGFlbEBnbWFpbC5jb20iLCJleHAiOjE2MTk0Nzc5OTV9.00w-BBu3V11rc9UzND2Izjg052xtBg2zRd6LnxlTxUU
 Accept: application/json
 
 ### Get guide trips
 GET http://localhost:2507/trips/getGuideTrips
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTYXJjaGFlbCIsImV4cCI6MTYxODk2MjE0NX0.RH8xVfL1iJGvnRWLFdoCGxyJRezMhdMh3rx7YJBbPew
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXJjaGFlbEBnbWFpbC5jb20iLCJleHAiOjE2MTk0Nzc5OTV9.00w-BBu3V11rc9UzND2Izjg052xtBg2zRd6LnxlTxUU
 Accept: application/json
 
 ### Get trip details
-GET http://localhost:2507/trips/getTripDetails?tripId=1
+GET http://localhost:2507/trips/getTripDetails?tripId=19
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWZAZ21haWwuY29tIiwiZXhwIjoxNjIwMTY1NDQ0fQ.gyLA4bJUDTsLvWnObCxRNPn7i9Wu2ML5z6bnVnS8QNQ
 Accept: application/json
+
+### Save new trip
+POST http://localhost:2507/trips/saveTrip
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYXJjaGFlbEBnbWFpbC5jb20iLCJleHAiOjE2MTk0NzkzNjh9._jLTLfAmznRXAGs9RjipOM0hz2Fb4Ob0V8k7d9xbd1o
+Accept: application/json
+Content-Type: application/json
+{
+  "departureLocation": "string",
+  "description": "string",
+  "endDate": "2021-04-26T21:52:44.271Z",
+  "formOfTransport": "BUS",
+  "guideId": 0,
+  "id": 0,
+  "mainImageUrl": "string",
+  "meal": true,
+  "otherImagesUrl": ["string"],
+  "participants": [1,2,3],
+  "pricePerSingleDayOfMeals": 0,
+  "pricePerSingleParticipant": 0,
+  "pricePerSingleRoom": 0,
+  "roomSizes": [1,2,3],
+  "startDate": "2021-04-26T21:52:44.271Z",
+  "title": "Saving test2",
+  "tripLocation": "string"
+},
+
+### Log in
+GET http://localhost:2507/login
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/json
+Cache-Control: no-cache
+{
+	"email": "sarchael@gmail.com",
+	"password": "krzaki"
+}

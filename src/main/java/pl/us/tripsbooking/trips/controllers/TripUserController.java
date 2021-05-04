@@ -26,10 +26,9 @@ public class TripUserController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/book/cancel")
-    public ResponseEntity<String> cancelTripBooking(Authentication authentication, @RequestParam Integer tripId) {
-        CustomSecurityUser userPrincipal = (CustomSecurityUser) authentication.getPrincipal();
-        tripUserReservationService.cancelTripBooking(tripId, userPrincipal.getId());
+    @PutMapping("/book/cancel")
+    public ResponseEntity<String> cancelTripReservation(@RequestParam Integer reservationId) {
+        tripUserReservationService.cancelTripReservation(reservationId);
         return ResponseEntity.ok().build();
     }
 

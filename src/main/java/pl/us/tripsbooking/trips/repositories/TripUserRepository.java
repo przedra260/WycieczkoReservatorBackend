@@ -13,12 +13,12 @@ import java.util.List;
 public interface TripUserRepository extends CrudRepository<TripUserReservation, Integer> {
 
     @Modifying
-    @Query(value = "DELETE FROM trips_users where trip_id = ?1 and user_id = ?2", nativeQuery = true)
-    void deleteByTripAndUser(Integer tripId, Integer userId);
+    @Query(value = "UPDATE trips_users_reservation SET is_canceled = true WHERE id = ?1", nativeQuery = true)
+    void cancelTripReservation(Integer reservationId);
 
-    @Query(value = "SELECT * FROM trips_users where trip_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM trips_users_reservation where trip_id = ?1", nativeQuery = true)
     List<TripUserReservation> findByTripId(Integer tripId);
 
-    @Query(value = "SELECT * FROM trips_users where user_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM trips_users_reservation where user_id = ?1 and is_canceled != true and is_historic != true", nativeQuery = true)
     List<TripUserReservation> findByUserId(Integer userId);
 }

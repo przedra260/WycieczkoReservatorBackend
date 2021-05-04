@@ -38,8 +38,8 @@ public class TripUserReservationService {
     }
 
     @Transactional
-    public void cancelTripBooking(Integer tripId, Integer userId) {
-        tripUserRepository.deleteByTripAndUser(tripId, userId);
+    public void cancelTripReservation(Integer reservationId) {
+        tripUserRepository.cancelTripReservation(reservationId);
     }
 
     public List<UserListModel> getTripParticipant(Integer tripId) {
