@@ -18,4 +18,7 @@ public interface TripUserRepository extends CrudRepository<TripUser, Integer> {
 
     @Query(value = "SELECT * FROM trips_users where trip_id = ?1", nativeQuery = true)
     List<TripUser> findByTripId(Integer tripId);
+
+    @Query(value = "SELECT * FROM trips_users where user_id = ?1", nativeQuery = true)
+    List<TripUser> findByUserId(Integer userId);
 }
