@@ -49,4 +49,10 @@ public class TripController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/assignGuide")
+    public ResponseEntity<String> assignGuide(@RequestParam Integer tripId, @RequestParam Integer guideId) {
+        tripService.assignGuide(tripId, guideId);
+        return ResponseEntity.ok().build();
+    }
+
 }

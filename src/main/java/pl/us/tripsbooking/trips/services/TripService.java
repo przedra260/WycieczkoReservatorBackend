@@ -2,6 +2,7 @@ package pl.us.tripsbooking.trips.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.us.tripsbooking.trips.dto.TripApiModel;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.entities.Trip;
@@ -54,5 +55,10 @@ public class TripService {
 
     public void deleteTrip(Integer tripId) {
         tripRepository.deleteById(tripId);
+    }
+
+    @Transactional
+    public void assignGuide(Integer tripId, Integer guideId) {
+        tripRepository.assignGuide(tripId, guideId);
     }
 }
