@@ -6,11 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.us.tripsbooking.trips.dto.TripApiModel;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.entities.Trip;
-import pl.us.tripsbooking.trips.entities.TripUser;
+import pl.us.tripsbooking.trips.entities.TripUserReservation;
 import pl.us.tripsbooking.trips.mappers.TripMapper;
 import pl.us.tripsbooking.trips.repositories.TripRepository;
-import pl.us.tripsbooking.users.entities.User;
-import pl.us.tripsbooking.users.mappers.UserMapper;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
 
 import java.util.ArrayList;
@@ -35,8 +33,8 @@ public class TripService {
     }
 
     public List<TripListModel> getUserTrips(String email) {
-        List<TripUser> tripUserList = usersRepository.findByEmail(email).getTripUserList();
-        List<Trip> tripList = tripUserList.stream().map(TripUser::getTrip).collect(Collectors.toList());
+        List<TripUserReservation> tripUserReservationList = usersRepository.findByEmail(email).getTripUserReservationList();
+        List<Trip> tripList = tripUserReservationList.stream().map(TripUserReservation::getTrip).collect(Collectors.toList());
         return tripMapper.mapToTripListModel(tripList);
     }
 
