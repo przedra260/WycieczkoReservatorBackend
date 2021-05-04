@@ -6,10 +6,16 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import pl.us.tripsbooking.trips.entities.TripUser;
 
+import java.util.List;
+
+
 @Repository
 public interface TripUserRepository extends CrudRepository<TripUser, Integer> {
 
     @Modifying
     @Query(value = "DELETE FROM trips_users where trip_id = ?1 and user_id = ?2", nativeQuery = true)
     void deleteByTripAndUser(Integer tripId, Integer userId);
+
+    @Query(value = "SELECT * FROM trips_users where trip_id = ?1", nativeQuery = true)
+    List<TripUser> findByTripId(Integer tripId);
 }

@@ -9,6 +9,8 @@ import pl.us.tripsbooking.trips.entities.Trip;
 import pl.us.tripsbooking.trips.entities.TripUser;
 import pl.us.tripsbooking.trips.mappers.TripMapper;
 import pl.us.tripsbooking.trips.repositories.TripRepository;
+import pl.us.tripsbooking.users.entities.User;
+import pl.us.tripsbooking.users.mappers.UserMapper;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
 
 import java.util.ArrayList;
