@@ -81,8 +81,9 @@ public class TripMapper {
         if (tripApiModel.getGuideId() != null) {
             trip.setGuideId(usersRepository.findById(tripApiModel.getGuideId()).orElseThrow());
         }
-        List<TripImages> tripImages = tripApiModel.getOtherImagesUrl().stream().map(url -> new TripImages(url, trip)).collect(Collectors.toList());
-        trip.setTripImagesList(tripImages);
+        trip.getTripImagesList().clear();
+        List<TripImages> tripImages = tripApiModel.getOtherImagesUrl().stream().map(img -> new TripImages(img, trip)).collect(Collectors.toList());
+        trip.getTripImagesList().addAll(tripImages);
 
         return trip;
     }

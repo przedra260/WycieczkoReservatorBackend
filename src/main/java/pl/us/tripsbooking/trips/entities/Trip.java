@@ -67,7 +67,7 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<TripUser> tripUserList;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TripImages> tripImagesList;
 
     public Trip() {
