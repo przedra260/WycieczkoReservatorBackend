@@ -2,11 +2,14 @@ package pl.us.tripsbooking.trips.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.us.tripsbooking.exceptions.ExceptionCodes;
+import pl.us.tripsbooking.exceptions.TripsBookingException;
 import pl.us.tripsbooking.trips.dto.TripApiModel;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.entities.Trip;
 import pl.us.tripsbooking.trips.entities.TripImages;
 import pl.us.tripsbooking.trips.repositories.TripRepository;
+import pl.us.tripsbooking.users.entities.User;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
 
 import java.math.BigDecimal;
@@ -31,7 +34,7 @@ public class TripMapper {
                         trip.getTitle(),
                         trip.getMainImgUrl(),
                         trip.getMinPrice(),
-                        trip.getGuideId().getId()))
+                        trip.getGuide().getId()))
                 .collect(Collectors.toList());
     }
 
@@ -54,7 +57,7 @@ public class TripMapper {
                 trip.getTransport(),
                 trip.getMainImgUrl(),
                 urls,
-                trip.getGuideId() != null ? trip.getGuideId().getId() : null
+                trip.getGuide() != null ? trip.getGuide().getId() : null
         );
     }
 
@@ -63,7 +66,7 @@ public class TripMapper {
 
         Trip trip;
         if (tripApiModel.getId() != null) {
-            trip = tripRepository.findById(tripApiModel.getId()).orElseThrow();
+            trip = tripRepository.findById(tripApiModel.getId()).orElseThrow(() -> new TripsBookingException(ExceptionCodes.TRIP_DOES_NOT_EXIST));
         } else {
             trip = new Trip();
         }
@@ -81,7 +84,11 @@ public class TripMapper {
         trip.setMainImgUrl(tripApiModel.getMainImageUrl());
         trip.setMinPrice(calculateMinPrice(tripApiModel));
         if (tripApiModel.getGuideId() != null) {
-            trip.setGuideId(usersRepository.findById(tripApiModel.getGuideId()).orElseThrow());
+            User user = usersRepository.findById(tripApiModel.getGuideId()).orElseThrow(() -> new TripsBookingException(ExceptionCodes.USER_DOES_NOT_EXIST));
+            if (!"ROLE_TRIPS_GUIDE".equals(user.getRole().getName())) {
+                throw new TripsBookingException(ExceptionCodes.USER_IS_NOT_GUIDE);
+            }
+            trip.setGuide(user);
         }
         trip.getTripImagesList().clear();
         List<TripImages> tripImages = tripApiModel.getOtherImagesUrl().stream().map(img -> new TripImages(img, trip)).collect(Collectors.toList());

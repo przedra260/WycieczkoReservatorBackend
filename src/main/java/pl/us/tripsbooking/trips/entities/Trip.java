@@ -57,7 +57,7 @@ public class Trip {
 
     @ManyToOne
     @JoinColumn(name = "guide_id")
-    private User guideId;
+    private User guide;
 
     @OneToMany(mappedBy = "trip", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<TripUserReservation> tripUserReservationList = new ArrayList<>();
@@ -85,7 +85,7 @@ public class Trip {
                 ", endDate=" + endDate +
                 ", participants='" + participants + '\'' +
                 ", transport=" + transport +
-                ", guideId=" + guideId +
+                ", guide=" + guide +
                 '}';
     }
 }
