@@ -31,7 +31,7 @@ public class TripMapper {
                         trip.getTitle(),
                         trip.getMainImgUrl(),
                         trip.getMinPrice(),
-                        trip.getId()))
+                        trip.getGuideId().getId()))
                 .collect(Collectors.toList());
     }
 
