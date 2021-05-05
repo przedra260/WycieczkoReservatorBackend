@@ -13,11 +13,13 @@ public class TripListModel {
     private String title;
     private String mainImageUrl;
     private BigDecimal minPrice;
+    private Integer guideId;
 
-    public TripListModel(Integer id, String title, String mainImageUrl, BigDecimal minPrice) {
+    public TripListModel(Integer id, String title, String mainImageUrl, BigDecimal minPrice, Integer guideId) {
         this.id = id;
         this.title = title;
         this.mainImageUrl = mainImageUrl;
         this.minPrice = minPrice;
+        this.guideId = guideId;
     }
 }

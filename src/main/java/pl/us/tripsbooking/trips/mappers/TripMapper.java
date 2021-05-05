@@ -24,7 +24,15 @@ public class TripMapper {
     private TripRepository tripRepository;
 
     public List<TripListModel> mapToTripListModel(List<Trip> tripList) {
-        return tripList.stream().map(trip -> new TripListModel(trip.getId(), trip.getTitle(), trip.getMainImgUrl(), trip.getMinPrice())).collect(Collectors.toList());
+        return tripList
+                .stream()
+                .map(trip -> new TripListModel(
+                        trip.getId(),
+                        trip.getTitle(),
+                        trip.getMainImgUrl(),
+                        trip.getMinPrice(),
+                        trip.getGuideId().getId()))
+                .collect(Collectors.toList());
     }
 
     public TripApiModel mapToTripApiModel(Trip trip) {

@@ -24,7 +24,7 @@ public class TripsBookingUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User userInfo = usersRepository.findByEmail(s);
+        User userInfo = usersRepository.findByEmail(s).get();
 
         if(userInfo == null)
             throw new UsernameNotFoundException("User not found");
