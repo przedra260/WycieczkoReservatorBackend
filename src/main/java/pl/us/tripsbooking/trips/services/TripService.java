@@ -28,12 +28,12 @@ public class TripService {
     private TripMapper tripMapper;
 
     public List<TripListModel> getGuideTrips(String email) {
-        List<Trip> tripList = usersRepository.findByEmail(email).getGuideTripsList();
+        List<Trip> tripList = usersRepository.findByEmail(email).get().getGuideTripsList();
         return tripMapper.mapToTripListModel(tripList);
     }
 
     public List<TripListModel> getUserTrips(String email) {
-        List<TripUserReservation> tripUserReservationList = usersRepository.findByEmail(email).getTripUserReservationList();
+        List<TripUserReservation> tripUserReservationList = usersRepository.findByEmail(email).get().getTripUserReservationList();
         List<Trip> tripList = tripUserReservationList.stream().map(TripUserReservation::getTrip).collect(Collectors.toList());
         return tripMapper.mapToTripListModel(tripList);
     }

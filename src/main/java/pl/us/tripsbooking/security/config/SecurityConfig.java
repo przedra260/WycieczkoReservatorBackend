@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/test/**",
+                        "/account/**",
                         "/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
@@ -60,8 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(authenticationFilter())
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), secret, userDetailsService))
-                .cors()
-        ;
+                .cors();
     }
 
     @Bean

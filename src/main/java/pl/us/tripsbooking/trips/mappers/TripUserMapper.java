@@ -21,7 +21,7 @@ public class TripUserMapper {
     private UsersRepository usersRepository;
 
     public TripUserReservation mapToTripUser(String userEmail, TripBookingModel tripBookingModel) {
-        User user = usersRepository.findByEmail(userEmail);
+        User user = usersRepository.findByEmail(userEmail).get();
         Trip trip = tripRepository.findById(tripBookingModel.getTripId()).orElseThrow();
         BigDecimal price = tripBookingModel.getPricePerSingleParticipant().multiply(BigDecimal.valueOf(tripBookingModel.getParticipants()));
         return new TripUserReservation(tripBookingModel.isMeal(), price, tripBookingModel.getParticipants(), trip, user);
