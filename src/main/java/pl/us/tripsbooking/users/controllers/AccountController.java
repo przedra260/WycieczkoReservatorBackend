@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.us.tripsbooking.users.dto.ChangePasswordReq;
 import pl.us.tripsbooking.users.services.UsersService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -17,7 +19,7 @@ public class AccountController {
     private UsersService usersService;
 
     @PutMapping("/change-password")
-    public ResponseEntity<Void> changePassword(@RequestBody ChangePasswordReq request) {
+    public ResponseEntity<Void> changePassword(@Valid @RequestBody ChangePasswordReq request) {
         usersService.changePassword(request);
         return ResponseEntity.ok().build();
     }

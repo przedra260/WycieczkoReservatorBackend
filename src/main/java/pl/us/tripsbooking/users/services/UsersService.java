@@ -47,11 +47,6 @@ public class UsersService {
 
     @Transactional
     public void changePassword(ChangePasswordReq request) {
-        if (StringUtils.isBlank(request.getEmail()))
-            throw new TripsBookingException(ExceptionCodes.EMAIL_DOES_NOT_EXIST);
-        if (request.getNewPassword() == null || request.getNewPassword().length() < 6)
-            throw new TripsBookingException(ExceptionCodes.NEW_PASSWORD_IS_TO_SHORT);
-
         Optional<User> userOpt = usersRepository.findByEmail(request.getEmail());
         if (userOpt.isEmpty())
             throw new TripsBookingException(ExceptionCodes.EMAIL_DOES_NOT_EXIST);
