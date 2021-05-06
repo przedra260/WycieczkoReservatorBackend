@@ -65,4 +65,8 @@ public class UsersService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         usersRepository.save(user);
     }
+
+    public void rechargeBalance(Integer amount, Integer userId) {
+        usersRepository.rechargeBalance(amount, userId);
+    }
 }

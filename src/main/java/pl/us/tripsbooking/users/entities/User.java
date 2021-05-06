@@ -34,6 +34,8 @@ public class User {
     @Column(name = "credentials_expired")
     private boolean credentialsExpired;
 
+    private Integer balance;
+
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;

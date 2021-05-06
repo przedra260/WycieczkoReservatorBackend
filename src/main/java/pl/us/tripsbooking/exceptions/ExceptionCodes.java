@@ -13,8 +13,9 @@ public enum ExceptionCodes {
     //trip operation(2xxx)
     USER_DOES_NOT_EXIST(2001, HttpStatus.NOT_FOUND),
     TRIP_DOES_NOT_EXIST(2002, HttpStatus.NOT_FOUND),
-    USER_IS_NOT_GUIDE(2003, HttpStatus.UNPROCESSABLE_ENTITY);
-
+    USER_IS_NOT_GUIDE(2003, HttpStatus.UNPROCESSABLE_ENTITY),
+    //balance operations(3xxx)
+    AMOUNT_HAS_TO_BE_POSITIVE(3001, HttpStatus.UNPROCESSABLE_ENTITY);
 
     private Integer errorCode;
     private HttpStatus httpStatus;
