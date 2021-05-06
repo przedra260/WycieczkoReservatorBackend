@@ -1,15 +1,16 @@
 package pl.us.tripsbooking.users.services;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.us.tripsbooking.exceptions.ExceptionCodes;
 import pl.us.tripsbooking.exceptions.TripsBookingException;
+import pl.us.tripsbooking.security.utils.Base64PasswordEncoder;
 import pl.us.tripsbooking.users.dto.ChangePasswordReq;
 import pl.us.tripsbooking.users.dto.CreateAccountReq;
+import pl.us.tripsbooking.users.dto.RemindPasswordReq;
 import pl.us.tripsbooking.users.dto.UserListModel;
 import pl.us.tripsbooking.users.entities.User;
 import pl.us.tripsbooking.users.mappers.UserMapper;
@@ -29,7 +30,7 @@ public class UsersService {
     @Autowired
     private UserMapper userMapper;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(5);
+    private Base64PasswordEncoder passwordEncoder = new Base64PasswordEncoder();
 
     public User getUserInfo(String s){
         return usersRepository.findByEmail(s).get();
@@ -71,5 +72,14 @@ public class UsersService {
             throw new TripsBookingException(ExceptionCodes.USER_ALREADY_EXISTS);
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         usersRepository.save(userMapper.fromCreateAccountReq(request));
+    }
+
+    public String remindPassword(RemindPasswordReq request) {
+        User user = usersRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new TripsBookingException(ExceptionCodes.SUCH_ACCOUNT_DOES_NOT_EXIST));
+        if (user.getPasswordHelpQuestionAnswer().equals(request.getAnswer()))
+            return passwordEncoder.decode(user.getPassword());
+        else
+            throw new TripsBookingException(ExceptionCodes.INCORRECT_ANSWER);
     }
 }

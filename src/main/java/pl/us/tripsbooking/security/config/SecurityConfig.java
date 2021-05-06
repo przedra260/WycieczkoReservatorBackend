@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -20,6 +19,7 @@ import pl.us.tripsbooking.security.filters.JsonObjectAuthenticationFilter;
 import pl.us.tripsbooking.security.filters.JwtAuthorizationFilter;
 import pl.us.tripsbooking.security.handlers.RestAuthenticationFailureHandler;
 import pl.us.tripsbooking.security.handlers.RestAuthenticationSuccessHandler;
+import pl.us.tripsbooking.security.utils.Base64PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder(5));
+        builder.userDetailsService(userDetailsService).passwordEncoder(new Base64PasswordEncoder());
     }
 
     @Override
