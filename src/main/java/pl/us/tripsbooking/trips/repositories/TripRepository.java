@@ -6,10 +6,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import pl.us.tripsbooking.trips.entities.Trip;
 
+import java.util.List;
+
 @Repository
 public interface TripRepository extends CrudRepository<Trip, Integer> {
 
     @Modifying
     @Query(value = "UPDATE trips SET guide_id = ?2 WHERE id = ?1", nativeQuery = true)
     void assignGuide(Integer tripId, Integer guideId);
+
+    List<Trip> findByGuideId(Integer guideId);
 }

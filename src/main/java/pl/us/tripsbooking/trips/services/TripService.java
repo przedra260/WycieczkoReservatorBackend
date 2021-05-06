@@ -3,6 +3,8 @@ package pl.us.tripsbooking.trips.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.us.tripsbooking.exceptions.ExceptionCodes;
+import pl.us.tripsbooking.exceptions.TripsBookingException;
 import pl.us.tripsbooking.trips.dto.TripApiModel;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.entities.Trip;
@@ -12,6 +14,7 @@ import pl.us.tripsbooking.trips.repositories.TripRepository;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +62,16 @@ public class TripService {
 
     @Transactional
     public void assignGuide(Integer tripId, Integer guideId) {
+        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripsBookingException(ExceptionCodes.TRIP_DOES_NOT_EXIST));
+        List<Trip> guideTrips = tripRepository.findByGuideId(guideId);
+        List<Date> startDateList = guideTrips.stream().map(Trip::getStartDate).collect(Collectors.toList());
+        List<Date> endDateList = guideTrips.stream().map(Trip::getEndDate).collect(Collectors.toList());
+        long invalidDates = 0L;
+        invalidDates += startDateList.stream().filter(s -> !s.after(trip.getEndDate())).count();
+        invalidDates += endDateList.stream().filter(s -> !s.before(trip.getStartDate())).count();
+        if (invalidDates > 0) {
+            throw new TripsBookingException(ExceptionCodes.GUIDE_IS_NOT_AVAILABLE);
+        }
         tripRepository.assignGuide(tripId, guideId);
     }
 }
