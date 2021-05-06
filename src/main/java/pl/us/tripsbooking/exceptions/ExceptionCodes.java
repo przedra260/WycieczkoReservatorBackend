@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ExceptionCodes {
-    //changing password (1xxx)
+    //changing password(1xxx)
     EMAIL_DOES_NOT_EXIST(1001, HttpStatus.NOT_FOUND),
     OLD_PASSWORD_DOES_NOT_MATCH(1002, HttpStatus.UNPROCESSABLE_ENTITY),
     NEW_PASSWORD_IS_TO_SHORT(1003, HttpStatus.UNPROCESSABLE_ENTITY),
@@ -39,7 +39,12 @@ public enum ExceptionCodes {
     ANSWER_HAS_1_TO_100_CHARS(4019, HttpStatus.UNPROCESSABLE_ENTITY),
     QUESTION_CANNOT_BE_NULL(4020, HttpStatus.UNPROCESSABLE_ENTITY),
     QUESTION_HAS_TO_BE_1_TO_3(4021, HttpStatus.UNPROCESSABLE_ENTITY),
-    USER_ALREADY_EXISTS(4022, HttpStatus.CONFLICT);
+    USER_ALREADY_EXISTS(4022, HttpStatus.CONFLICT),
+    //reminding password(5xxx)
+    EMAIL_FOR_REMIND_PASSWORD_CANNOT_BE_NULL(5001, HttpStatus.UNPROCESSABLE_ENTITY),
+    ANSWER_FOR_REMIND_PASSWORD_CANNOT_BE_NULL(5002, HttpStatus.UNPROCESSABLE_ENTITY),
+    SUCH_ACCOUNT_DOES_NOT_EXIST(5003, HttpStatus.NOT_FOUND),
+    INCORRECT_ANSWER(5004, HttpStatus.UNPROCESSABLE_ENTITY);
 
     private Integer errorCode;
     private HttpStatus httpStatus;
