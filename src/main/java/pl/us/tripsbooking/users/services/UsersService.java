@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.us.tripsbooking.exceptions.ExceptionCodes;
 import pl.us.tripsbooking.exceptions.TripsBookingException;
 import pl.us.tripsbooking.users.dto.ChangePasswordReq;
+import pl.us.tripsbooking.users.dto.CreateAccountReq;
 import pl.us.tripsbooking.users.dto.UserListModel;
 import pl.us.tripsbooking.users.entities.User;
 import pl.us.tripsbooking.users.mappers.UserMapper;
@@ -63,5 +64,12 @@ public class UsersService {
 
     public void rechargeBalance(Integer amount, Integer userId) {
         usersRepository.rechargeBalance(amount, userId);
+    }
+
+    public void createAccount(CreateAccountReq request) {
+        if (usersRepository.findByEmail(request.getEmail()).isPresent())
+            throw new TripsBookingException(ExceptionCodes.USER_ALREADY_EXISTS);
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        usersRepository.save(userMapper.fromCreateAccountReq(request));
     }
 }

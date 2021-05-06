@@ -1,8 +1,7 @@
 package pl.us.tripsbooking.users.entities;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.us.tripsbooking.trips.entities.Trip;
 import pl.us.tripsbooking.trips.entities.TripUserReservation;
 
@@ -11,6 +10,9 @@ import java.util.List;
 
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "users")
 public class User {
 
@@ -36,6 +38,18 @@ public class User {
 
     private Integer balance;
 
+    private String streetAndNumber;
+
+    private String zipCode;
+
+    private String city;
+
+    private String phoneNumber;
+
+    private String passwordHelpQuestionAnswer;
+
+    private Integer selectedPasswordHelpQuestion;
+
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
@@ -45,9 +59,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TripUserReservation> tripUserReservationList;
-
-    public User() {
-    }
 
     @Override
     public String toString() {
