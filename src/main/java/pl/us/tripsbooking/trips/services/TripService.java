@@ -13,6 +13,7 @@ import pl.us.tripsbooking.trips.mappers.TripMapper;
 import pl.us.tripsbooking.trips.repositories.TripRepository;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,16 +63,17 @@ public class TripService {
 
     @Transactional
     public void assignGuide(Integer tripId, Integer guideId) {
+        checkGuideAvailability(tripId, guideId);
+        tripRepository.assignGuide(tripId, guideId);
+    }
+
+    public void checkGuideAvailability(Integer tripId, Integer guideId) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripsBookingException(ExceptionCodes.TRIP_DOES_NOT_EXIST));
         List<Trip> guideTrips = tripRepository.findByGuideId(guideId);
-        List<Date> startDateList = guideTrips.stream().map(Trip::getStartDate).collect(Collectors.toList());
-        List<Date> endDateList = guideTrips.stream().map(Trip::getEndDate).collect(Collectors.toList());
-        long invalidDates = 0L;
-        invalidDates += startDateList.stream().filter(s -> !s.after(trip.getEndDate())).count();
-        invalidDates += endDateList.stream().filter(s -> !s.before(trip.getStartDate())).count();
-        if (invalidDates > 0) {
+        List<SimpleEntry<Date, Date>> startEndDatePairList = guideTrips.stream().map(a -> new SimpleEntry<>(a.getStartDate(), a.getEndDate())).collect(Collectors.toList());
+        boolean blockingDates = startEndDatePairList.stream().anyMatch(e -> !e.getKey().after(trip.getEndDate()) && !trip.getStartDate().after(e.getValue()));
+        if (blockingDates) {
             throw new TripsBookingException(ExceptionCodes.GUIDE_IS_NOT_AVAILABLE);
         }
-        tripRepository.assignGuide(tripId, guideId);
     }
 }
