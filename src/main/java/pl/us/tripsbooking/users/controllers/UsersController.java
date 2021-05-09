@@ -37,6 +37,11 @@ public class UsersController {
         return ResponseEntity.ok(usersService.getAllGuides());
     }
 
+    @GetMapping("/getAvailableGuides")
+    public ResponseEntity<List<UserListModel>> getAvailableGuides(@RequestParam Integer tripId) {
+        return ResponseEntity.ok(usersService.getAvailableGuides(tripId));
+    }
+
     @PutMapping("/recharge-balance/{amount}")
     public ResponseEntity<Void> rechargeBalance(@PathVariable Integer amount,
                                                 Authentication authentication) {

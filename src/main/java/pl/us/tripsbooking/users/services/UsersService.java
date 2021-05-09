@@ -2,12 +2,13 @@ package pl.us.tripsbooking.users.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.us.tripsbooking.exceptions.ExceptionCodes;
 import pl.us.tripsbooking.exceptions.TripsBookingException;
 import pl.us.tripsbooking.security.utils.Base64PasswordEncoder;
+import pl.us.tripsbooking.trips.entities.Trip;
+import pl.us.tripsbooking.trips.repositories.TripRepository;
 import pl.us.tripsbooking.users.dto.ChangePasswordReq;
 import pl.us.tripsbooking.users.dto.CreateAccountReq;
 import pl.us.tripsbooking.users.dto.RemindPasswordReq;
@@ -19,6 +20,7 @@ import pl.us.tripsbooking.users.repositories.UsersRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Qualifier("usersService")
@@ -29,6 +31,9 @@ public class UsersService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private TripRepository tripRepository;
 
     private Base64PasswordEncoder passwordEncoder = new Base64PasswordEncoder();
 
@@ -45,6 +50,14 @@ public class UsersService {
     public List<UserListModel> getAllGuides() {
         List<User> guidesList = new ArrayList<>(usersRepository.getAllGuides());
         return userMapper.mapToUserListModel(guidesList);
+    }
+
+    public List<UserListModel> getAvailableGuides(Integer tripId) {
+        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripsBookingException(ExceptionCodes.TRIP_DOES_NOT_EXIST));
+        List<Integer> unavailableGuidesId = usersRepository.getUnavailableGuidesId(trip.getStartDate(), trip.getEndDate());
+        List<User> availableGuides = usersRepository.getAllGuides().stream().filter(guide -> !unavailableGuidesId.contains(guide.getId())).collect(Collectors.toList());
+        availableGuides.add(trip.getGuide());
+        return userMapper.mapToUserListModel(availableGuides);
     }
 
     @Transactional

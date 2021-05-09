@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.us.tripsbooking.users.entities.User;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,12 @@ public interface UsersRepository extends CrudRepository<User, Integer> {
                    " WHERE roles.name = 'ROLE_TRIPS_GUIDE' " +
                    "   AND users.is_blocked = false", nativeQuery = true)
     List<User> getAllGuides();
+
+    @Query(value = "SELECT guide_id " +
+            "  FROM trips " +
+            " WHERE start_date <= ?2" +
+            "   AND ?1 <= end_date", nativeQuery = true)
+    List<Integer> getUnavailableGuidesId(Date startDate, Date endDate);
 
     @Transactional
     @Modifying
