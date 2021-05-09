@@ -13,7 +13,9 @@ import pl.us.tripsbooking.users.entities.User;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
 
 import java.math.BigDecimal;
+import java.util.AbstractMap;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,6 +90,7 @@ public class TripMapper {
             if (!"ROLE_TRIPS_GUIDE".equals(user.getRole().getName())) {
                 throw new TripsBookingException(ExceptionCodes.USER_IS_NOT_GUIDE);
             }
+            checkGuideAvailability(trip, tripApiModel.getGuideId());
             trip.setGuide(user);
         }
         trip.getTripImagesList().clear();
@@ -100,5 +103,14 @@ public class TripMapper {
     private BigDecimal calculateMinPrice(TripApiModel tripApiModel) {
         BigDecimal minParticipants = new BigDecimal(tripApiModel.getParticipants().stream().mapToInt(v -> v).min().orElseThrow());
         return tripApiModel.getPricePerSingleParticipant().multiply(minParticipants);
+    }
+
+    public void checkGuideAvailability(Trip trip, Integer guideId) {
+        List<Trip> guideTrips = tripRepository.findByGuideId(guideId);
+        List<AbstractMap.SimpleEntry<Date, Date>> startEndDatePairList = guideTrips.stream().map(a -> new AbstractMap.SimpleEntry<>(a.getStartDate(), a.getEndDate())).collect(Collectors.toList());
+        boolean blockingDates = startEndDatePairList.stream().anyMatch(e -> !e.getKey().after(trip.getEndDate()) && !trip.getStartDate().after(e.getValue()));
+        if (blockingDates) {
+            throw new TripsBookingException(ExceptionCodes.GUIDE_IS_NOT_AVAILABLE);
+        }
     }
 }
