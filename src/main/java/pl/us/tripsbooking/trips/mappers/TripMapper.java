@@ -90,8 +90,10 @@ public class TripMapper {
             if (!"ROLE_TRIPS_GUIDE".equals(user.getRole().getName())) {
                 throw new TripsBookingException(ExceptionCodes.USER_IS_NOT_GUIDE);
             }
-            checkGuideAvailability(trip, tripApiModel.getGuideId());
-            trip.setGuide(user);
+            if (trip.getGuide() == null || !trip.getGuide().getId().equals(tripApiModel.getGuideId())) {
+                checkGuideAvailability(trip, tripApiModel.getGuideId());
+                trip.setGuide(user);
+            }
         }
         trip.getTripImagesList().clear();
         List<TripImages> tripImages = tripApiModel.getOtherImagesUrl().stream().map(img -> new TripImages(img, trip)).collect(Collectors.toList());

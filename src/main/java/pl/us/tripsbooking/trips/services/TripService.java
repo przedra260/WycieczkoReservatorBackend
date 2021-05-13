@@ -69,11 +69,13 @@ public class TripService {
 
     public void checkGuideAvailability(Integer tripId, Integer guideId) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new TripsBookingException(ExceptionCodes.TRIP_DOES_NOT_EXIST));
+        if (trip.getGuide() != null && trip.getGuide().getId().equals(guideId)) return;
         List<Trip> guideTrips = tripRepository.findByGuideId(guideId);
         List<SimpleEntry<Date, Date>> startEndDatePairList = guideTrips.stream().map(a -> new SimpleEntry<>(a.getStartDate(), a.getEndDate())).collect(Collectors.toList());
         boolean blockingDates = startEndDatePairList.stream().anyMatch(e -> !e.getKey().after(trip.getEndDate()) && !trip.getStartDate().after(e.getValue()));
         if (blockingDates) {
             throw new TripsBookingException(ExceptionCodes.GUIDE_IS_NOT_AVAILABLE);
         }
+
     }
 }

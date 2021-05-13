@@ -1,6 +1,5 @@
 package pl.us.tripsbooking.trips.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import pl.us.tripsbooking.users.entities.User;
