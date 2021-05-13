@@ -18,13 +18,13 @@ public class TripUserReservation {
     private Integer id;
 
     @Column(name = "is_canceled")
-    private boolean isCanceled;
+    private Boolean isCanceled;
 
     @Column(name = "is_historic")
-    private boolean isHistoric;
+    private Boolean isHistoric;
 
     @Column(name = "is_meal")
-    private boolean isMeal;
+    private Boolean isMeal;
 
     private BigDecimal price;
 
