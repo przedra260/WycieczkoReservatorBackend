@@ -16,4 +16,7 @@ public interface TripRepository extends CrudRepository<Trip, Integer> {
     void assignGuide(Integer tripId, Integer guideId);
 
     List<Trip> findByGuideId(Integer guideId);
+
+    @Query(value = "SELECT * FROM TRIPS WHERE GUIDE_ID = ?2 AND ID != ?1", nativeQuery = true)
+    List<Trip> findByGuidIdWithoutOwnTrip(Integer tripId, Integer guideId);
 }

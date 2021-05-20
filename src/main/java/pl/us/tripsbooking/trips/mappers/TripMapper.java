@@ -90,10 +90,8 @@ public class TripMapper {
             if (!"ROLE_TRIPS_GUIDE".equals(user.getRole().getName())) {
                 throw new TripsBookingException(ExceptionCodes.USER_IS_NOT_GUIDE);
             }
-            if (trip.getGuide() == null || !trip.getGuide().getId().equals(tripApiModel.getGuideId())) {
-                checkGuideAvailability(trip, tripApiModel.getGuideId());
-                trip.setGuide(user);
-            }
+            checkGuideAvailability(trip, tripApiModel.getGuideId());
+            trip.setGuide(user);
         }
         trip.getTripImagesList().clear();
         List<TripImages> tripImages = tripApiModel.getOtherImagesUrl().stream().map(img -> new TripImages(img, trip)).collect(Collectors.toList());
@@ -108,7 +106,12 @@ public class TripMapper {
     }
 
     public void checkGuideAvailability(Trip trip, Integer guideId) {
-        List<Trip> guideTrips = tripRepository.findByGuideId(guideId);
+        List<Trip> guideTrips;
+        if (trip.getId() != null) {
+            guideTrips = tripRepository.findByGuidIdWithoutOwnTrip(trip.getId(), guideId);
+        } else {
+            guideTrips = tripRepository.findByGuideId(guideId);
+        }
         List<AbstractMap.SimpleEntry<Date, Date>> startEndDatePairList = guideTrips.stream().map(a -> new AbstractMap.SimpleEntry<>(a.getStartDate(), a.getEndDate())).collect(Collectors.toList());
         boolean blockingDates = startEndDatePairList.stream().anyMatch(e -> !e.getKey().after(trip.getEndDate()) && !trip.getStartDate().after(e.getValue()));
         if (blockingDates) {
