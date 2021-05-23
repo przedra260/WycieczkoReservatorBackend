@@ -5,12 +5,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.us.tripsbooking.exceptions.ExceptionCodes;
 import pl.us.tripsbooking.exceptions.TripsBookingException;
+import pl.us.tripsbooking.trips.dto.BookedTripApiModel;
+import pl.us.tripsbooking.trips.dto.BookedTripListModel;
 import pl.us.tripsbooking.trips.dto.TripApiModel;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.entities.Trip;
 import pl.us.tripsbooking.trips.entities.TripUserReservation;
 import pl.us.tripsbooking.trips.mappers.TripMapper;
 import pl.us.tripsbooking.trips.repositories.TripRepository;
+import pl.us.tripsbooking.trips.repositories.TripUserRepository;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -29,6 +32,9 @@ public class TripService {
     private UsersRepository usersRepository;
 
     @Autowired
+    private TripUserRepository tripUserRepository;
+
+    @Autowired
     private TripMapper tripMapper;
 
     public List<TripListModel> getGuideTrips(String email) {
@@ -36,10 +42,9 @@ public class TripService {
         return tripMapper.mapToTripListModel(tripList);
     }
 
-    public List<TripListModel> getUserTrips(String email) {
+    public List<BookedTripListModel> getUserTrips(String email) {
         List<TripUserReservation> tripUserReservationList = usersRepository.findByEmail(email).get().getTripUserReservationList();
-        List<Trip> tripList = tripUserReservationList.stream().map(TripUserReservation::getTrip).collect(Collectors.toList());
-        return tripMapper.mapToTripListModel(tripList);
+        return tripMapper.mapToBookedTripListModel(tripUserReservationList);
     }
 
     public List<TripListModel> getAllTrips() {
@@ -50,6 +55,10 @@ public class TripService {
 
     public TripApiModel getTripDetails(Integer tripId) {
         return tripMapper.mapToTripApiModel(tripRepository.findById(tripId).orElseThrow());
+    }
+
+    public BookedTripApiModel getBookedTripDetails(Integer reservationId) {
+        return tripMapper.mapToBookedTripApiModel(tripUserRepository.findById(reservationId).orElseThrow());
     }
 
     public void saveTrip(TripApiModel tripApiModel) {

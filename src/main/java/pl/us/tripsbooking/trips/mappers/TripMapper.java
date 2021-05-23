@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.us.tripsbooking.exceptions.ExceptionCodes;
 import pl.us.tripsbooking.exceptions.TripsBookingException;
+import pl.us.tripsbooking.trips.dto.BookedTripApiModel;
+import pl.us.tripsbooking.trips.dto.BookedTripListModel;
 import pl.us.tripsbooking.trips.dto.TripApiModel;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.entities.Trip;
 import pl.us.tripsbooking.trips.entities.TripImages;
+import pl.us.tripsbooking.trips.entities.TripUserReservation;
 import pl.us.tripsbooking.trips.repositories.TripRepository;
 import pl.us.tripsbooking.users.entities.User;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
@@ -40,6 +43,19 @@ public class TripMapper {
                 .collect(Collectors.toList());
     }
 
+    public List<BookedTripListModel> mapToBookedTripListModel(List<TripUserReservation> tripUserReservationList) {
+
+        return tripUserReservationList
+                .stream()
+                .map(reservation -> new BookedTripListModel(
+                        reservation.getId(),
+                        reservation.getTrip().getTitle(),
+                        reservation.getTrip().getMainImgUrl(),
+                        reservation.getTrip().getMinPrice(),
+                        reservation.getTrip().getGuide().getId()))
+                .collect(Collectors.toList());
+    }
+
     public TripApiModel mapToTripApiModel(Trip trip) {
         List<Integer> participants = Arrays.stream(trip.getParticipants().split(",")).map(Integer::valueOf).collect(Collectors.toList());
         List<String> urls = trip.getTripImagesList().stream().map(TripImages::getImgUrl).collect(Collectors.toList());
@@ -57,6 +73,30 @@ public class TripMapper {
                 trip.getStartDate(),
                 trip.getEndDate(),
                 trip.getTransport(),
+                trip.getMainImgUrl(),
+                urls,
+                trip.getGuide() != null ? trip.getGuide().getId() : null
+        );
+    }
+
+    public BookedTripApiModel mapToBookedTripApiModel(TripUserReservation tripUserReservation) {
+        Trip trip = tripUserReservation.getTrip();
+        List<String> urls = trip.getTripImagesList().stream().map(TripImages::getImgUrl).collect(Collectors.toList());
+
+        return new BookedTripApiModel(
+                trip.getId(),
+                trip.getTitle(),
+                trip.getDescription(),
+                tripUserReservation.getParticipants(),
+                trip.getPricePerPerson(),
+                tripUserReservation.getIsMeal(),
+                trip.getMealPricePerPerson(),
+                trip.getDepartureLocation(),
+                trip.getTripLocation(),
+                trip.getStartDate(),
+                trip.getEndDate(),
+                trip.getTransport(),
+                tripUserReservation.getPrice(),
                 trip.getMainImgUrl(),
                 urls,
                 trip.getGuide() != null ? trip.getGuide().getId() : null
