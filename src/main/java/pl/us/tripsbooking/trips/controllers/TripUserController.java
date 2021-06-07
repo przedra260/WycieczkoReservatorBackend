@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.us.tripsbooking.security.model.CustomSecurityUser;
+import pl.us.tripsbooking.trips.dto.PaidTripModel;
 import pl.us.tripsbooking.trips.dto.TripBookingModel;
 import pl.us.tripsbooking.trips.dto.TripListModel;
 import pl.us.tripsbooking.trips.services.TripUserReservationService;
@@ -41,5 +42,11 @@ public class TripUserController {
     public ResponseEntity<List<TripListModel>> getBookedTrips(Authentication authentication) {
         CustomSecurityUser userPrincipal = (CustomSecurityUser) authentication.getPrincipal();
         return ResponseEntity.ok(tripUserReservationService.getBookedTrips(userPrincipal.getId()));
+    }
+
+    @GetMapping("/paid")
+    public ResponseEntity<List<PaidTripModel>> getPaidTrips(Authentication authentication) {
+        CustomSecurityUser userPrincipal = (CustomSecurityUser) authentication.getPrincipal();
+        return ResponseEntity.ok(tripUserReservationService.getUserPaidTrips(userPrincipal.getId()));
     }
 }

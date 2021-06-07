@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import pl.us.tripsbooking.trips.entities.TripUserReservation;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -21,4 +22,7 @@ public interface TripUserRepository extends CrudRepository<TripUserReservation, 
 
     @Query(value = "SELECT * FROM trips_users_reservation where user_id = ?1 and is_canceled != true and is_historic != true", nativeQuery = true)
     List<TripUserReservation> findByUserId(Integer userId);
+
+    @Query(value = "SELECT * FROM trips_users_reservation where user_id = ?1 and price is not null order by id desc", nativeQuery = true)
+    List<TripUserReservation> findPaidTripsByUserIdOrderedDesc(Integer userId);
 }
