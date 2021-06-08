@@ -95,4 +95,10 @@ public class UsersService {
         else
             throw new TripsBookingException(ExceptionCodes.INCORRECT_ANSWER);
     }
+
+    public Integer findSecurityQuestion(String email) {
+        User user = usersRepository.findByEmail(email)
+                                   .orElseThrow(() -> new TripsBookingException(ExceptionCodes.SUCH_ACCOUNT_DOES_NOT_EXIST));
+        return user.getSelectedPasswordHelpQuestion();
+    }
 }

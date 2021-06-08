@@ -34,4 +34,9 @@ public class AccountController {
     public ResponseEntity<String> remindPassword(@Valid @RequestBody RemindPasswordReq request) {
         return ResponseEntity.ok(usersService.remindPassword(request));
     }
+
+    @GetMapping("/security-question")
+    public ResponseEntity<Integer> securityQuestion(@RequestParam String email) {
+        return ResponseEntity.ok(usersService.findSecurityQuestion(email));
+    }
 }
