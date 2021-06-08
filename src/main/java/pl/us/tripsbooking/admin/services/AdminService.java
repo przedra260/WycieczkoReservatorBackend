@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.us.tripsbooking.admin.dto.ChangeRoleReq;
 import pl.us.tripsbooking.admin.dto.UserSettings;
 import pl.us.tripsbooking.admin.dto.UsersList;
+import pl.us.tripsbooking.admin.enums.ChangeableParam;
 import pl.us.tripsbooking.exceptions.ExceptionCodes;
 import pl.us.tripsbooking.exceptions.TripsBookingException;
 import pl.us.tripsbooking.users.entities.Role;
@@ -41,8 +42,8 @@ public class AdminService {
     }
 
     public void changeUserRole(ChangeRoleReq request, Integer id) {
-        User user = usersRepository.findById(id)
-                                   .orElseThrow(() -> new TripsBookingException(ExceptionCodes.SUCH_ACCOUNT_DOES_NOT_EXIST));
+        User user = getUserById(id);
+
         List<Role> roles = new ArrayList<>();
         rolesRepository.findAll().forEach(roles::add);
 
@@ -52,5 +53,19 @@ public class AdminService {
                             .orElseThrow(() -> new TripsBookingException(ExceptionCodes.ROLE_DOES_NOT_EXIST));
         user.setRole(newRole);
         usersRepository.save(user);
+    }
+
+    public void changeState(Integer id, boolean state, ChangeableParam param) {
+        User user = getUserById(id);
+        switch (param) {
+            case BLOCKED: user.setBlocked(state); break;
+            case CREDENTIALS_EXPIRED: user.setCredentialsExpired(state); break;
+        }
+        usersRepository.save(user);
+    }
+
+    private User getUserById(Integer id) {
+        return usersRepository.findById(id)
+                              .orElseThrow(() -> new TripsBookingException(ExceptionCodes.SUCH_ACCOUNT_DOES_NOT_EXIST));
     }
 }
