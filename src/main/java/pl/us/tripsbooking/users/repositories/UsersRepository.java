@@ -34,4 +34,6 @@ public interface UsersRepository extends CrudRepository<User, Integer> {
                    "   SET balance = COALESCE(balance, 0) + ?1 " +
                    " WHERE id = ?2")
     void rechargeBalance(Integer amount, Integer userId);
+
+    Optional<User> findById(Integer id);
 }
