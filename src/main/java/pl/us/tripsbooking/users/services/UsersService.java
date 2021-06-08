@@ -73,6 +73,7 @@ public class UsersService {
             throw new TripsBookingException(ExceptionCodes.PASSWORDS_ARE_EQUALS);
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setCredentialsExpired(false);
         usersRepository.save(user);
     }
 
