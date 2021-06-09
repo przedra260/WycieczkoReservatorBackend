@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import pl.us.tripsbooking.trips.entities.TripUserReservation;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository

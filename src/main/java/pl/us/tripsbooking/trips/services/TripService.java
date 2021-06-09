@@ -44,6 +44,7 @@ public class TripService {
 
     public List<BookedTripListModel> getUserTrips(String email) {
         List<TripUserReservation> tripUserReservationList = usersRepository.findByEmail(email).get().getTripUserReservationList();
+        tripUserReservationList = tripUserReservationList.stream().filter(res -> !res.getIsCanceled() && !res.getIsHistoric()).collect(Collectors.toList());
         return tripMapper.mapToBookedTripListModel(tripUserReservationList);
     }
 
