@@ -8,7 +8,7 @@ import pl.us.tripsbooking.exceptions.ExceptionCodes;
 import pl.us.tripsbooking.exceptions.TripsBookingException;
 import pl.us.tripsbooking.security.model.CustomSecurityUser;
 import pl.us.tripsbooking.users.dto.UserListModel;
-import pl.us.tripsbooking.users.entities.User;
+import pl.us.tripsbooking.users.dto.UserModel;
 import pl.us.tripsbooking.users.services.UsersService;
 
 import java.security.Principal;
@@ -22,8 +22,8 @@ public class UsersController {
     private UsersService usersService;
 
     @GetMapping("/getUserInfo")
-    public ResponseEntity<User> getUserInfo(Principal principal) {
-        User user = usersService.getUserInfo(principal.getName());
+    public ResponseEntity<UserModel> getUserInfo(Principal principal) {
+        UserModel user = usersService.getUserInfo(principal.getName());
         return ResponseEntity.ok(user);
     }
 

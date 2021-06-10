@@ -9,10 +9,7 @@ import pl.us.tripsbooking.exceptions.TripsBookingException;
 import pl.us.tripsbooking.security.utils.Base64PasswordEncoder;
 import pl.us.tripsbooking.trips.entities.Trip;
 import pl.us.tripsbooking.trips.repositories.TripRepository;
-import pl.us.tripsbooking.users.dto.ChangePasswordReq;
-import pl.us.tripsbooking.users.dto.CreateAccountReq;
-import pl.us.tripsbooking.users.dto.RemindPasswordReq;
-import pl.us.tripsbooking.users.dto.UserListModel;
+import pl.us.tripsbooking.users.dto.*;
 import pl.us.tripsbooking.users.entities.User;
 import pl.us.tripsbooking.users.mappers.UserMapper;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
@@ -37,8 +34,8 @@ public class UsersService {
 
     private Base64PasswordEncoder passwordEncoder = new Base64PasswordEncoder();
 
-    public User getUserInfo(String s){
-        return usersRepository.findByEmail(s).get();
+    public UserModel getUserInfo(String s){
+        return userMapper.mapToUserModel(usersRepository.findByEmail(s).get());
     }
 
     public List<UserListModel> getAllUsers() {
