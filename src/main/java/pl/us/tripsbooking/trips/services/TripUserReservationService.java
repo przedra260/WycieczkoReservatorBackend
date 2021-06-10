@@ -79,4 +79,8 @@ public class TripUserReservationService {
         List<TripUserReservation> trips = tripUserRepository.findPaidTripsByUserIdOrderedDesc(userId);
         return tripUserMapper.mapToPaidTripModelList(trips);
     }
+
+    public void markTripsAsHistorical() {
+        tripUserRepository.markTripsAsHistorical();
+    }
 }
