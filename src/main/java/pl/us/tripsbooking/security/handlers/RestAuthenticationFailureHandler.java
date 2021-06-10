@@ -20,11 +20,14 @@ public class RestAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         if (e instanceof LockedException)
-            response.getWriter().write("\"message\": \"" + UnauthorizedTypes.ACCOUNT_BLOCKED + "\"");
+            response.getWriter().write("\"message\": \"" + UnauthorizedTypes.ACCOUNT_BLOCKED + "\", " +
+                                          "\"errorCode\": 0000");
         else if (e instanceof CredentialsExpiredException)
-            response.getWriter().write("\"message\": \"" + UnauthorizedTypes.CREDENTIALS_EXPIRED + "\"");
+            response.getWriter().write("\"message\": \"" + UnauthorizedTypes.CREDENTIALS_EXPIRED + "\", " +
+                                          "\"errorCode\": 0001");
         else
-            response.getWriter().write("\"message\": \"" + UnauthorizedTypes.ACCESS_DENIED + "\"");
+            response.getWriter().write("\"message\": \"" + UnauthorizedTypes.ACCESS_DENIED + "\", " +
+                                          "\"errorCode\": 0002");
 
         return;
     }
