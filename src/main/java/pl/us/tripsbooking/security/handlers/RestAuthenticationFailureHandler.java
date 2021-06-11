@@ -21,13 +21,13 @@ public class RestAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 
         if (e instanceof LockedException)
             response.getWriter().write("\"message\": \"" + UnauthorizedTypes.ACCOUNT_BLOCKED + "\", " +
-                                          "\"errorCode\": 0000");
+                                          "\"errorCode\": 0");
         else if (e instanceof CredentialsExpiredException)
             response.getWriter().write("\"message\": \"" + UnauthorizedTypes.CREDENTIALS_EXPIRED + "\", " +
-                                          "\"errorCode\": 0001");
+                                          "\"errorCode\": 1");
         else
             response.getWriter().write("\"message\": \"" + UnauthorizedTypes.ACCESS_DENIED + "\", " +
-                                          "\"errorCode\": 0002");
+                                          "\"errorCode\": 2");
 
         return;
     }
