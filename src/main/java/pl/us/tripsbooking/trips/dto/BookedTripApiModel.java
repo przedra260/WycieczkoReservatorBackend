@@ -10,12 +10,12 @@ import java.util.List;
 
 @Getter
 @Setter
-public class TripApiModel {
+public class BookedTripApiModel {
 
-    private Integer id;
+    private Integer tripId;
     private String title;
     private String description;
-    private List<Integer> participants;
+    private Integer participants;
     private BigDecimal pricePerSingleParticipant;
     private boolean meal;
     private BigDecimal mealPricePerPerson;
@@ -24,14 +24,15 @@ public class TripApiModel {
     private Date startDate;
     private Date endDate;
     private TransportForm formOfTransport;
+    private BigDecimal price;
     private String mainImageUrl;
     private List<String> otherImagesUrl;
     private Integer guideId;
 
-    public TripApiModel(Integer id, String title, String description, List<Integer> participants, BigDecimal pricePerSingleParticipant,
-                        boolean meal, BigDecimal mealPricePerPerson, String departureLocation, String tripLocation, Date startDate, Date endDate,
-                        TransportForm formOfTransport, String mainImageUrl, List<String> otherImagesUrl, Integer guideId) {
-        this.id = id;
+    public BookedTripApiModel(Integer tripId, String title, String description, Integer participants, BigDecimal pricePerSingleParticipant, boolean meal,
+                              BigDecimal mealPricePerPerson, String departureLocation, String tripLocation, Date startDate, Date endDate, TransportForm formOfTransport,
+                              BigDecimal price, String mainImageUrl, List<String> otherImagesUrl, Integer guideId) {
+        this.tripId = tripId;
         this.title = title;
         this.description = description;
         this.participants = participants;
@@ -43,6 +44,7 @@ public class TripApiModel {
         this.startDate = startDate;
         this.endDate = endDate;
         this.formOfTransport = formOfTransport;
+        this.price = price;
         this.mainImageUrl = mainImageUrl;
         this.otherImagesUrl = otherImagesUrl;
         this.guideId = guideId;

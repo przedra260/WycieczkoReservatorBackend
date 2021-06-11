@@ -13,6 +13,7 @@ import pl.us.tripsbooking.users.entities.User;
 import pl.us.tripsbooking.users.repositories.UsersRepository;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 @Qualifier("userDetailService")
@@ -24,11 +25,12 @@ public class TripsBookingUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User userInfo = usersRepository.findByEmail(s);
+        Optional<User> userInfoOpt = usersRepository.findByEmail(s);
 
-        if(userInfo == null)
+        if(userInfoOpt.isEmpty())
             throw new UsernameNotFoundException("User not found");
 
+        User userInfo = userInfoOpt.get();
         return new CustomSecurityUser(Arrays.asList(new SimpleGrantedAuthority(userInfo.getRole().getName())),
                                       userInfo.getEmail(),
                                       userInfo.getPassword(),

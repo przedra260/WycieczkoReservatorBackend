@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -19,6 +19,7 @@ import pl.us.tripsbooking.security.filters.JsonObjectAuthenticationFilter;
 import pl.us.tripsbooking.security.filters.JwtAuthorizationFilter;
 import pl.us.tripsbooking.security.handlers.RestAuthenticationFailureHandler;
 import pl.us.tripsbooking.security.handlers.RestAuthenticationSuccessHandler;
+import pl.us.tripsbooking.security.utils.Base64PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -39,22 +40,46 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder(5));
+        builder.userDetailsService(userDetailsService).passwordEncoder(new Base64PasswordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/test/**").permitAll()
-                .anyRequest().authenticated() //potem dodac patterny na role
+                .antMatchers("/test/**",
+                        "/account/**",
+                        "/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/trips/saveTrip").hasRole("ADMIN")
+                .antMatchers("/trips/deleteTrip").hasRole("ADMIN")
+                .antMatchers("/trips/assignGuide").hasRole("ADMIN")
+                .antMatchers("/users/getAllUsers").hasRole("ADMIN")
+                .antMatchers("/users/getAllGuides").hasRole("ADMIN")
+                .antMatchers("/users/getAvailableGuides").hasRole("ADMIN")
+                .antMatchers("/trips/book/cancel").hasRole("USER")
+                .antMatchers("/trips/getTripDetails").hasRole("USER")
+                .antMatchers("/trips/getBookedTripDetails").hasRole("USER")
+                .antMatchers("/trips/getUserTrips").hasRole("USER")
+                .antMatchers("/trips/book").hasRole("USER")
+                .antMatchers("/trips/paid").hasRole("USER")
+                .antMatchers("/trips/bookedTrips").hasRole("USER")
+                .antMatchers("/users/getUserInfo").hasRole("USER")
+                .antMatchers("/users/recharge-balance/**").hasRole("USER")
+                .antMatchers("/trips/participants").hasRole("TRIPS_GUIDE")
+                .antMatchers("/trips/getGuideTrips").hasRole("TRIPS_GUIDE")
+                .antMatchers("/trips/getAllTrips").authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(authenticationFilter())
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), secret, userDetailsService))
-                .cors()
-        ;
+                .cors();
     }
 
     @Bean
@@ -80,8 +105,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        var config = new CorsConfiguration();
+
+        config.addAllowedMethod(HttpMethod.GET);
+        config.addAllowedMethod(HttpMethod.POST);
+        config.addAllowedMethod(HttpMethod.DELETE);
+        config.addAllowedMethod(HttpMethod.PATCH);
+        config.addAllowedMethod(HttpMethod.PUT);
+
+        config.addAllowedOrigin(CorsConfiguration.ALL);
+
+        config.addAllowedHeader(CorsConfiguration.ALL);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 }
